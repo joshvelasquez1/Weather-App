@@ -1,18 +1,15 @@
 import json, requests
-#functions for weather
-def temp():
+#function for weather
+def output_display():
 	temp = unformated_data["main"]["temp"]
 	print(f"The current temperature is: {temp}")
 
-def temp_min():
 	temp_min = unformated_data["main"]["temp_min"]
 	print(f"The minimum temperature is: {temp_min}")
 
-def temp_max():
 	temp_max = unformated_data["main"]["temp_max"]
 	print(f"The maximum temperature is: {temp_max}")
 
-def weather_main():
 	weather_main = unformated_data["weather"][0]["main"]
 	print(f"The weather looks like: {unformated_data['weather'][0]['main']}")
 
@@ -37,10 +34,7 @@ while True:
 			print("Sorry the entered information is incorrect")
 			print()
 		else:
-			temp()
-			temp_min()
-			temp_max()
-			weather_main()
+			output_display()
 			print()
 
 # key: 7be3619db7fadee15790446e998a140f
