@@ -1,4 +1,4 @@
-from WeatherApp import *
+from logic import *
 
 
 def main():
