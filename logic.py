@@ -6,6 +6,7 @@ from weather_second import Ui_weathersecond
 
 
 class MainMenu(QMainWindow, Ui_weathermain):
+	"""Main window for the weather application"""
 	def __init__(self):
 		super().__init__()
 
@@ -13,6 +14,7 @@ class MainMenu(QMainWindow, Ui_weathermain):
 		self.enter_button.clicked.connect(self.submit)
 
 	def submit(self):
+		"""Submit the city input and fetch weather data"""
 		base_url = "https://api.openweathermap.org/data/2.5/weather"
 		appid = "7be3619db7fadee15790446e998a140f"
 		location = self.city_input.text()
@@ -22,26 +24,24 @@ class MainMenu(QMainWindow, Ui_weathermain):
 
 		if unformatted_data == {"cod": "404", "message": "city not found"}:
 			self.instruction_text.setText('City not found. Enter your City.')
+			self.city_input.setText('')
 		elif unformatted_data == {"cod": "400", "message": "Nothing to geocode"}:
 			self.instruction_text.setText('No input found. Enter your City.')
 		else:
 			self.show_display_menu(unformatted_data)
+			self.instruction_text.setText('Enter your City.')
+			self.city_input.setText('')
 
 	def show_display_menu(self, unformatted_data):
+		"""Show the display menu with weather information"""
 		self.display_menu = DisplayMenu(self, unformatted_data)
-
 		self.display_menu.show()
 		self.hide()
 
-	def closeEvent(self, event):
-		if hasattr(self, 'display_menu'):
-			self.display_menu.close()
-		event.accept()
-
 
 class DisplayMenu(QWidget, Ui_weathersecond):
-
-	def __init__(self, parent, unformatted_data):
+	"""Widget for displaying weather information"""
+	def __init__(self, parent, unformatted_data: dict):
 		super().__init__()
 
 		self.setupUi(self)
@@ -57,10 +57,11 @@ class DisplayMenu(QWidget, Ui_weathersecond):
 
 		self.city_name.setText(city)
 		self.weather_type.setText(weather_main)
-		self.temp_main.setText(f'Temperature: {temp}')
-		self.temp_max.setText(f'Max: {temp_max}')
-		self.temp_min.setText(f'Min: {temp_min}')
+		self.temp_main.setText(f'Temperature: {temp}°')
+		self.temp_max.setText(f'Max: {temp_max}°')
+		self.temp_min.setText(f'Min: {temp_min}°')
 
 	def back_button_press(self):
+		"""Handle the back button press to return to main menu"""
 		self.parent.show()
 		self.hide()
